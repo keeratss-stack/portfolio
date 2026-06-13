@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<!--
+  DOCTYPE html: This line tells the browser "this is a modern HTML5 page."
+  Without it, the browser might render things weirdly. Always put this first.
+-->
+
+<html lang="en">
+<!--
+  <html>: The root tag. Everything on your page lives inside this.
+  lang="en": Tells the browser and screen readers the page is in English.
+              Screen readers use this to pronounce text correctly.
+-->
+
+<head>
+  <!--
+    <head>: This section is NOT visible on the page.
+    It holds settings and instructions FOR the browser — like page title,
+    character encoding, fonts, and styles.
+  -->
+
+  <meta charset="UTF-8">
+  <!--
+    charset="UTF-8": Tells the browser what character set to use.
+    UTF-8 supports all languages, emojis, and special characters.
+    Without this, some characters might show as weird symbols.
+  -->
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!--
+    viewport: This makes your page look good on mobile phones.
+    - width=device-width: Use the actual screen width (not a fake zoom-out view)
+    - initial-scale=1.0: Don't zoom in or out when the page loads
+    Without this, your page would look tiny on a phone.
+  -->
+
+  <title>Keerat Singh | Portfolio</title>
+  <!--
+    <title>: The text that appears on the browser tab.
+    Also used by Google when it shows your page in search results.
+  -->
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <!--
+    Google Fonts: We're loading the "Inter" font from Google's servers.
+    - preconnect: Tells the browser to connect to Google's font server early,
+      so the font loads faster.
+    - The last <link> actually downloads the font.
+    "Inter" is a clean, professional font used by many tech companies.
+  -->
+
+  <style>
+    /*
+      <style>: Everything inside here is CSS.
+      CSS = Cascading Style Sheets.
+      HTML builds the structure (like walls of a house).
+      CSS makes it look good (paint, furniture, layout).
+    */
+
+    /* ─── RESET ─────────────────────────────────────────────────────────── */
+    /*
+      Every browser has its own default styles (margins, padding, etc).
+      This "reset" removes all of that so we start from a clean slate.
+      * means "apply to everything".
+    */
+    * {
+      margin: 0;          /* Remove default spacing outside elements */
+      padding: 0;         /* Remove default spacing inside elements */
+      box-sizing: border-box; /* Makes width/height calculations predictable.
+                                 Without this, padding adds to the element's size
+                                 which causes unexpected layout bugs. */
+    }
+
+    /* ─── VARIABLES ──────────────────────────────────────────────────────── */
+    /*
+      :root is the top-level element (same as <html>).
+      We store colors and values as "variables" here so we can reuse them.
+      Think of it like naming colors in a paint store.
+      --variable-name: value; is the syntax.
+      Later we use it like: color: var(--text);
+    */
+    :root {
+      --bg: #ffffff;          /* White background */
+      --text: #1a1a1a;        /* Near-black text — easier on eyes than pure black */
+      --muted: #666666;       /* Gray for less important text */
+      --border: #e5e5e5;      /* Light gray for lines/borders */
+      --accent: #2563eb;      /* Blue for links and highlights */
+      --tag-bg: #f0f4ff;      /* Very light blue for skill tags */
+    }
+
+    /* ─── BODY ───────────────────────────────────────────────────────────── */
+    body {
+      font-family: 'Inter', sans-serif;
+      /*
+        font-family: Sets the font. We use Inter (the Google Font we loaded).
+        'sans-serif' is the fallback — if Inter fails to load, use any sans-serif font.
+      */
+      background-color: var(--bg);   /* White background */
+      color: var(--text);             /* Default text color */
+      line-height: 1.7;
+      /*
+        line-height: Space between lines of text.
+        1.7 means each line is 1.7× the font size in height.
+        Without this, lines of text would feel cramped.
+      */
+      font-size: 16px;                /* Base font size */
+    }
+
+    /* ─── LAYOUT ─────────────────────────────────────────────────────────── */
+    .container {
+      /*
+        .container: The dot means this is a CSS "class".
+        A class can be applied to any HTML element with class="container".
+        We use it to create a centered column of content.
+      */
+      max-width: 720px;
+      /*
+        max-width: The container will never be wider than 720px.
+        On big screens it stays 720px wide. On small screens it shrinks.
+        This makes text easier to read — long lines are hard on the eyes.
+      */
+      margin: 0 auto;
+      /*
+        margin: 0 auto: 
+        - 0 = no top/bottom margin
+        - auto = equal left/right margin → centers the container on the page
+      */
+      padding: 48px 24px;
+      /*
+        padding: Space INSIDE the container.
+        - 48px top/bottom breathing room
+        - 24px left/right so text doesn't touch screen edges on mobile
+      */
+    }
+
+    /* ─── HEADER ─────────────────────────────────────────────────────────── */
+    .header {
+      margin-bottom: 48px;
+      /*
+        margin-bottom: Space below this section before the next one starts.
+        48px = 3 rem, gives a comfortable gap.
+      */
+      padding-bottom: 32px;
+      border-bottom: 1px solid var(--border);
+      /*
+        border-bottom: Draws a horizontal line under the header.
+        - 1px = thin line
+        - solid = not dashed or dotted
+        - var(--border) = uses our light gray color variable
+      */
+    }
+
+    .name {
+      font-size: 28px;
+      font-weight: 700;   /* Bold. Font weights go from 100 (thin) to 900 (black). 700 = bold. */
+      color: var(--text);
+      margin-bottom: 4px;
+    }
+
+    .tagline {
+      font-size: 16px;
+      color: var(--muted);  /* Gray — less important than the name */
+      margin-bottom: 16px;
+    }
+
+    .contact-row {
+      display: flex;
+      /*
+        display: flex: "Flexbox" layout.
+        Instead of elements stacking on top of each other (default),
+        flex makes them sit side by side in a row.
+        Very useful for navigation links, icon rows, etc.
+      */
+      flex-wrap: wrap;
+      /*
+        flex-wrap: wrap: If items don't fit in one row, they wrap to the next line.
+        Like text wrapping. Without this, items would overflow off-screen on mobile.
+      */
+      gap: 16px;
+      /*
+        gap: Space between flex items.
+        Much cleaner than adding margin to every individual item.
+      */
+      font-size: 14px;
+    }
+
+    .contact-row a {
+      /*
+        a: Targets all <a> (link) elements inside .contact-row
+      */
+      color: var(--accent);     /* Blue links */
+      text-decoration: none;    /* Removes the default underline on links */
+    }
+
+    .contact-row a:hover {
+      /*
+        :hover is a "pseudo-class" — it applies styles when the mouse is over the element.
+        This gives visual feedback that it's clickable.
+      */
+      text-decoration: underline;
+    }
+
+    .contact-row span {
+      color: var(--muted);   /* Gray text for things like "email@..." */
+    }
+
+    /* ─── SECTIONS ───────────────────────────────────────────────────────── */
+    .section {
+      margin-bottom: 40px;
+    }
+
+    .section-title {
+      font-size: 13px;
+      font-weight: 600;
+      text-transform: uppercase;
+      /*
+        text-transform: uppercase: Makes text ALL CAPS in CSS.
+        Easier to maintain than typing in caps — you can change it in one place.
+      */
+      letter-spacing: 0.08em;
+      /*
+        letter-spacing: Space between individual characters.
+        0.08em = 8% of font size. Gives uppercase text a clean, spaced look.
+        "em" is a relative unit — it scales with the font size.
+      */
+      color: var(--muted);
+      margin-bottom: 16px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    /* ─── ABOUT ──────────────────────────────────────────────────────────── */
+    .about-text {
+      font-size: 15px;
+      color: var(--text);
+      line-height: 1.8;
+    }
+
+    /* ─── SKILLS ─────────────────────────────────────────────────────────── */
+    .skills-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .skill-tag {
+      background-color: var(--tag-bg);   /* Light blue background */
+      color: var(--accent);               /* Blue text */
+      font-size: 13px;
+      font-weight: 500;
+      padding: 4px 12px;
+      border-radius: 4px;
+      /*
+        border-radius: Rounds the corners of the tag.
+        4px = slightly rounded, not a pill shape.
+        Higher values (like 999px) make it fully rounded like a pill.
+      */
+    }
+
+    /* ─── PROJECTS ───────────────────────────────────────────────────────── */
+    .project-card {
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 20px;
+      margin-bottom: 16px;
+      /*
+        This creates a simple "card" look.
+        Just a thin border, slightly rounded corners, and inside padding.
+      */
+    }
+
+    .project-card:last-child {
+      /*
+        :last-child: Targets the last .project-card in its parent.
+        We remove the bottom margin so there's no extra space after the last card.
+      */
+      margin-bottom: 0;
+    }
+
+    .project-name {
+      font-size: 15px;
+      font-weight: 600;
+      margin-bottom: 6px;
+    }
+
+    .project-name a {
+      color: var(--accent);
+      text-decoration: none;
+    }
+
+    .project-name a:hover {
+      text-decoration: underline;
+    }
+
+    .project-desc {
+      font-size: 14px;
+      color: var(--muted);
+      line-height: 1.6;
+      margin-bottom: 10px;
+    }
+
+    .project-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .project-tag {
+      font-size: 12px;
+      background-color: #f5f5f5;   /* Very light gray */
+      color: #444;
+      padding: 2px 8px;
+      border-radius: 3px;
+    }
+
+    /* ─── LEARNING SECTION ───────────────────────────────────────────────── */
+    .learning-item {
+      display: flex;              /* Side-by-side layout */
+      align-items: flex-start;   /* Align items to the top */
+      gap: 12px;
+      margin-bottom: 14px;
+    }
+
+    .learning-item:last-child {
+      margin-bottom: 0;
+    }
+
+    .learning-dot {
+      /*
+        We create a small colored circle as a bullet point using CSS.
+        No image needed — just CSS shapes.
+      */
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;   /* 50% makes a perfect circle */
+      background-color: var(--accent);
+      margin-top: 7px;      /* Nudge down to align with text */
+      flex-shrink: 0;       /* Prevent the dot from shrinking if space is tight */
+    }
+
+    .learning-text {
+      font-size: 14px;
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    .learning-text a {
+      color: var(--accent);
+      text-decoration: none;
+    }
+
+    .learning-text a:hover {
+      text-decoration: underline;
+    }
+
+    .learning-text .sub {
+      display: block;   /* Makes it go on a new line */
+      font-size: 13px;
+      color: var(--muted);
+      margin-top: 2px;
+    }
+
+    /* ─── FOOTER ─────────────────────────────────────────────────────────── */
+    .footer {
+      margin-top: 48px;
+      padding-top: 20px;
+      border-top: 1px solid var(--border);
+      font-size: 13px;
+      color: var(--muted);
+      text-align: center;   /* Centers text horizontally */
+    }
+
+    /* ─── RESPONSIVE ─────────────────────────────────────────────────────── */
+    @media (max-width: 480px) {
+      /*
+        @media: A "media query". This applies styles ONLY when the screen
+        is 480px wide or smaller (most phones).
+        Inside here we adjust things that might look bad on small screens.
+      */
+      .container {
+        padding: 32px 16px;   /* Less padding on small screens */
+      }
+
+      .name {
+        font-size: 24px;      /* Slightly smaller name on mobile */
+      }
+    }
+
+  </style>
+</head>
+
+<body>
+  <!--
+    <body>: Everything here IS visible on the page.
+    All your content — text, links, sections — goes inside body.
+  -->
+
+  <div class="container">
+    <!--
+      <div>: A "division" or box. It has no visual meaning by itself.
+      We use it to group elements and apply styles to them.
+      class="container" links it to the .container CSS we wrote above.
+    -->
+
+    <!-- ── HEADER ─────────────────────────────────────────────────────── -->
+    <header class="header">
+      <!--
+        <header>: A semantic HTML tag. "Semantic" means it has meaning.
+        It tells the browser (and screen readers) "this is the header area."
+        Using semantic tags is good practice for accessibility and SEO.
+      -->
+      <h1 class="name">Keerat Singh</h1>
+      <!--
+        <h1>: Heading level 1. The most important heading on the page.
+        There should only be one <h1> per page. Search engines use it to
+        understand what the page is about.
+      -->
+
+      <p class="tagline">CS Student · Learning ML & Web Dev</p>
+      <!--
+        <p>: Paragraph tag. Used for any block of text.
+      -->
+
+      <div class="contact-row">
+        <a href="mailto:keeratssinghh@gmail.com">Gmail</a>
+        <!--
+          href="mailto:": Clicking this opens the user's email app.
+        -->
+        <a href="https://github.com/keeratss-stack" target="_blank">GitHub</a>
+        <!--
+          target="_blank": Opens the link in a NEW tab instead of the current one.
+          Good for external links so users don't leave your portfolio.
+        -->
+        <a href="https://www.linkedin.com/in/keerat-singh-91a75a32a/" target="_blank">LinkedIn</a>
+        <a href="https://leetcode.com/u/keerattt0110/" target="_blank">LeetCode</a>
+        <span>Delhi, India</span>
+      </div>
+    </header>
+
+    <!-- ── ABOUT ───────────────────────────────────────────────────────── -->
+    <section class="section">
+      <!--
+        <section>: Another semantic tag. Groups related content.
+        Like chapters in a book. Helps screen readers navigate your page.
+      -->
+      <p class="section-title">About</p>
+      <p class="about-text">
+        CS student who's currently focused on getting the fundamentals right.
+        I'm learning ML from scratch — understanding how algorithms actually work, not just using them.
+        On the side, I'm solving DSA problems in C++ to build a stronger base in problem solving.
+      </p>
+    </section>
+
+    <!-- ── SKILLS ──────────────────────────────────────────────────────── -->
+    <section class="section">
+      <p class="section-title">Skills</p>
+      <div class="skills-list">
+        <!--
+          Each skill is a <span> with class="skill-tag".
+          <span> is like <div> but inline — it doesn't force a new line.
+          We just list what you know. No fake progress bars.
+        -->
+        <span class="skill-tag">Python</span>
+        <span class="skill-tag">C</span>
+        <span class="skill-tag">C++</span>
+        <span class="skill-tag">HTML</span>
+        <span class="skill-tag">CSS</span>
+        <span class="skill-tag">scikit-learn</span>
+        <span class="skill-tag">Pandas</span>
+        <span class="skill-tag">NumPy</span>
+        <span class="skill-tag">Jupyter / Google Colab</span>
+      </div>
+    </section>
+
+    <!-- ── PROJECTS ────────────────────────────────────────────────────── -->
+    <section class="section">
+      <p class="section-title">Projects</p>
+
+      <div class="project-card">
+        <p class="project-name">
+          <a href="https://github.com/keeratss-stack/titanic-survival-model" target="_blank">
+            Titanic Survival Prediction
+          </a>
+        </p>
+        <p class="project-desc">
+          Built a machine learning model to predict whether a passenger survived the Titanic disaster.
+          Used Python with scikit-learn, handling data cleaning, feature engineering, and model evaluation.
+        </p>
+        <div class="project-tags">
+          <span class="project-tag">Python</span>
+          <span class="project-tag">scikit-learn</span>
+          <span class="project-tag">Pandas</span>
+          <span class="project-tag">Classification</span>
+        </div>
+      </div>
+
+      <div class="project-card">
+        <p class="project-name">
+          <a href="https://github.com/keeratss-stack/portfolio" target="_blank">
+            This Portfolio
+          </a>
+        </p>
+        <p class="project-desc">
+          Personal portfolio website built with plain HTML and CSS. No frameworks — just fundamentals.
+        </p>
+        <div class="project-tags">
+          <span class="project-tag">HTML</span>
+          <span class="project-tag">CSS</span>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ── CURRENTLY LEARNING ──────────────────────────────────────────── -->
+    <section class="section">
+      <p class="section-title">Currently Learning</p>
+
+      <div class="learning-item">
+        <div class="learning-dot"></div>
+        <!--
+          This dot is made entirely with CSS (circle shape).
+          No image file needed.
+        -->
+        <div class="learning-text">
+          <a href="https://github.com/keeratss-stack/google-collab-ml-work" target="_blank">
+            ML Fundamentals — Google Colab Notebook Repo
+          </a>
+          <span class="sub">
+            Working through core ML concepts: linear regression, classification,
+            decision trees, and model evaluation.
+          </span>
+        </div>
+      </div>
+
+      <div class="learning-item">
+        <div class="learning-dot"></div>
+        <div class="learning-text">
+          Data preprocessing & feature engineering with Pandas and NumPy
+          <span class="sub">Cleaning messy datasets, handling missing values, encoding categories.</span>
+        </div>
+      </div>
+
+
+
+      <div class="learning-item">
+        <div class="learning-dot"></div>
+        <div class="learning-text">
+          Web development basics — HTML, CSS, JavaScript
+          <span class="sub">Building this portfolio is part of the learning process.</span>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ── FOOTER ──────────────────────────────────────────────────────── -->
+    <footer class="footer">
+      <!--
+        <footer>: Semantic tag for the bottom of the page.
+      -->
+      Keerat Singh · Built with HTML & CSS · © 2025 Keerat Singh. All rights reserved.
+    </footer>
+
+  </div>
+  <!-- End of .container -->
+
+</body>
+</html>
